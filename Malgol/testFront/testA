@@ -1,0 +1,16 @@
+f(a : int, b : int) : int
+{
+	sum : int
+---
+        sum := a + b + 1000
+        return sum
+}
+
+main() : int
+{
+        result : int
+---
+        result := f(10 20)
+        print result
+        return 0
+}

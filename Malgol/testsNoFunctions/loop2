@@ -1,0 +1,13 @@
+{
+  i : int
+---
+  i := 0
+  while i < 10 do
+  {
+  ---
+    if i % 2 = 0
+      then print i * 10
+      else skip
+    i := i + 1
+  }
+}

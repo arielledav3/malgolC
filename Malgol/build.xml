@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Apr 25, 2015 9:52:54 AM                                                        
+
+     project    
+     description
+                   
+     WMarrero                                                                
+     ====================================================================== -->
+<project name="Project" default="build">
+	<description>
+            Project - Malgol Language Compiler
+    </description>
+
+	<property environment="env" />
+
+	<target name="build" depends="clean-all,build-parser">
+		<javac srcdir="parser:src" destdir="bin" debug="true" deprecation="on" classpath="lib/sablecc.jar" includeantruntime="false">
+			<!-- <compilerarg value="-Xlint:unchecked"/> -->
+		</javac>
+		<copy file="parser/malgol/lexer/lexer.dat" todir="bin/malgol/lexer" overwrite="true" />
+		<copy file="parser/malgol/parser/parser.dat" todir="bin/malgol/parser" overwrite="true" />
+		<tstamp>
+			<format property="date.time" pattern="yyyy-MM-dd-HH-mm-ss" />
+		</tstamp>
+		<echo append="true" file="log.txt">
+		      Compiled by ${user.name} on ${date.time}
+		</echo>
+	</target>
+
+	<!-- PARSER TARGETS -->
+
+	<target name="build-parser" depends="clean-parser">
+		<java jar="lib/sablecc.jar" dir="parser" fork="true">
+			<arg file="parser/parser.sable" />
+		</java>
+		<fail message="SableCC failed to generate files.">
+			<condition>
+				<not>
+					<available file="parser/malgol/node/Start.java" />
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+	<target name="clean-parser">
+		<delete dir="parser/malgol" />
+	</target>
+
+	<!-- CLEAN TESTS -->
+
+	<target name="clean-testFront">
+		<antcall target="-clean-test">
+			<param name="testdir" value="testFront" />
+		</antcall>
+	</target>
+
+	<target name="clean-testTypeCheck">
+		<antcall target="-clean-test">
+			<param name="testdir" value="testTypeCheck" />
+		</antcall>
+	</target>
+
+	<target name="clean-testLinearization">
+		<antcall target="-clean-test">
+			<param name="testdir" value="testLinearization" />
+		</antcall>
+	</target>
+
+	<target name="clean-testCodeGeneration">
+		<antcall target="-clean-test">
+			<param name="testdir" value="testCodeGeneration" />
+		</antcall>
+	</target>
+
+	<target name="-clean-test">
+		<delete>
+			<fileset dir="${testdir}" includes="test*.txt" />
+			<fileset dir="${testdir}" includes="test*.s" />
+			<fileset dir="${testdir}" includes="test*.c" />
+			<fileset dir="${testdir}" includes="test*.exe" />
+			<fileset dir="${testdir}" includes="test*.err" />
+		</delete>
+	</target>
+
+	<target name="clean-all" depends="clean-testFront,clean-testTypeCheck,clean-testLinearization,clean-testCodeGeneration">
+		<delete dir="parser/malgol" />
+		<delete dir="bin" />
+		<mkdir dir="bin" />
+		<delete>
+			<fileset dir="." includes="submit-*.zip" />
+			<fileset dir="." includes="output-*" />
+			<fileset dir="." includes="test*.txt" />
+			<fileset defaultexcludes="no" dir="." includes="**/*~" />
+			<fileset dir="." includes="**/large.*" />
+		</delete>
+	</target>
+
+	<!--
+	<target name="set-suffix">
+		<fail unless="stage">
+ERROR
+  
+You must set the value of stage!
+usage:  ant -Dstage=# target
+		</fail>
+		<condition property="suffix" value="s" else="c">
+			<equals arg1="${stage}" arg2="5" />
+		</condition>
+	</target>
+-->
+
+	<!-- TEST FRONT END -->
+	<target name="testSubmit1" depends="clean-testFront">
+		<antcall target="-testSubmit1-help">
+			<param name="testdir" value="testFront" />
+			<param name="suffix" value="c" />
+			<param name="stage" value="0" />
+		</antcall>
+	</target>
+
+	<target name="-testSubmit1-help">
+		<parallel>
+			<antcall target="-buggy">
+				<param name="testfile" value="test1" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test2" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test3" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test4" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test5" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test6" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test7" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test8" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test9" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test10" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test11" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="test12" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testA" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testB" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testC" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testD" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testE" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testF" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testG" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testH" />
+			</antcall>
+
+			<sequential>
+				<waitfor maxwait="20" maxwaitunit="second">
+					<and>
+						<available file="${testdir}/test1.err" />
+						<available file="${testdir}/test2.err" />
+						<available file="${testdir}/test3.err" />
+						<available file="${testdir}/test4.err" />
+						<available file="${testdir}/test5.err" />
+						<available file="${testdir}/test6.err" />
+						<available file="${testdir}/test7.err" />
+						<available file="${testdir}/test8.err" />
+						<available file="${testdir}/test9.err" />
+						<available file="${testdir}/test10.err" />
+						<available file="${testdir}/test11.err" />
+						<available file="${testdir}/test12.err" />
+						<available file="${testdir}/testA.err" />
+						<available file="${testdir}/testB.err" />
+						<available file="${testdir}/testC.err" />
+						<available file="${testdir}/testD.err" />
+						<available file="${testdir}/testE.err" />
+						<available file="${testdir}/testF.err" />
+						<available file="${testdir}/testG.err" />
+						<available file="${testdir}/testH.err" />
+					</and>
+				</waitfor>
+				<antcall target="-concat">
+					<param name="testfile" value="test1" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test2" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test3" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test4" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test5" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test6" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test7" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test8" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test9" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test10" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test11" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test12" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testA" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testB" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testC" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testD" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testE" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testF" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testG" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testH" />
+				</antcall>
+
+			</sequential>
+		</parallel>
+	</target>
+	
+	
+	<target name="testFront" depends="clean-testFront">
+		<antcall target="-testFront-help">
+			<param name="testdir" value="testFront" />
+			<param name="suffix" value="c" />
+			<param name="stage" value="1" />
+		</antcall>
+	</target>
+	
+	<target name="-testFront-help">
+		<parallel>
+			<antcall target="-correct">
+				<param name="testfile" value="test1" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test2" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test3" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test4" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test5" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test6" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test7" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test8" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test9" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test10" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test11" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test12" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testA" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testB" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testC" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testD" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testE" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testF" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testG" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testH" />
+			</antcall>
+
+			<sequential>
+				<waitfor maxwait="20" maxwaitunit="second">
+					<and>
+						<available file="${testdir}/test1.txt" />
+						<available file="${testdir}/test2.txt" />
+						<available file="${testdir}/test3.txt" />
+						<available file="${testdir}/test4.txt" />
+						<available file="${testdir}/test5.txt" />
+						<available file="${testdir}/test6.txt" />
+						<available file="${testdir}/test7.txt" />
+						<available file="${testdir}/test8.txt" />
+						<available file="${testdir}/test9.txt" />
+						<available file="${testdir}/test10.txt" />
+						<available file="${testdir}/test11.txt" />
+						<available file="${testdir}/test12.txt" />
+						<available file="${testdir}/testA.err" />
+						<available file="${testdir}/testB.err" />
+						<available file="${testdir}/testC.err" />
+						<available file="${testdir}/testD.err" />
+						<available file="${testdir}/testE.err" />
+						<available file="${testdir}/testF.err" />
+						<available file="${testdir}/testG.err" />
+						<available file="${testdir}/testH.err" />
+					</and>
+				</waitfor>
+				<antcall target="-concat">
+					<param name="testfile" value="test1" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test2" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test3" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test4" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test5" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test6" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test7" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test8" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test9" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test10" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test11" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test12" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testA" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testB" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testC" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testD" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testE" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testF" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testG" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testH" />
+				</antcall>
+
+			</sequential>
+		</parallel>
+	</target>
+
+	<target name="testTypeCheck" depends="clean-testTypeCheck">
+		<antcall target="-testTypeCheck-help">
+			<param name="testdir" value="testTypeCheck" />
+			<param name="suffix" value="c" />
+			<param name="stage" value="2" />
+		</antcall>
+	</target>
+
+
+	<target name="-testTypeCheck-help">
+		<parallel>
+			<antcall target="-correct">
+				<param name="testfile" value="test1" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test2" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testA" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testB" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testC" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testD" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testE" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testF" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testG" />
+			</antcall>
+			<antcall target="-buggy">
+				<param name="testfile" value="testH" />
+			</antcall>
+
+			<sequential>
+				<waitfor maxwait="20" maxwaitunit="second">
+					<and>
+						<available file="${testdir}/test1.txt" />
+						<available file="${testdir}/test2.txt" />
+						<available file="${testdir}/testA.err" />
+						<available file="${testdir}/testB.err" />
+						<available file="${testdir}/testC.err" />
+						<available file="${testdir}/testD.err" />
+						<available file="${testdir}/testE.err" />
+						<available file="${testdir}/testF.err" />
+						<available file="${testdir}/testG.err" />
+						<available file="${testdir}/testH.err" />
+					</and>
+				</waitfor>
+				<antcall target="-concat">
+					<param name="testfile" value="test1" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test2" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testA" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testB" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testC" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testD" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testE" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testF" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testG" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="testH" />
+				</antcall>
+
+			</sequential>
+		</parallel>
+	</target>
+
+	<target name="testLinearization" depends="clean-testLinearization">
+		<antcall target="-testLinearization-help">
+			<param name="testdir" value="testLinearization" />
+			<param name="suffix" value="c" />
+			<param name="stage" value="4" />
+		</antcall>
+	</target>
+
+	<target name="-testLinearization-help">
+		<parallel>
+			<antcall target="-correct">
+				<param name="testfile" value="test1" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test2" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test3" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test4" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test5" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test6" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test7" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test8" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test9" />
+			</antcall>
+			<antcall target="-correct">
+				<param name="testfile" value="test10" />
+			</antcall>
+
+			<sequential>
+				<waitfor maxwait="20" maxwaitunit="second">
+					<and>
+						<available file="${testdir}/test1.txt" />
+						<available file="${testdir}/test2.txt" />
+						<available file="${testdir}/test3.txt" />
+						<available file="${testdir}/test4.txt" />
+						<available file="${testdir}/test5.txt" />
+						<available file="${testdir}/test6.txt" />
+						<available file="${testdir}/test7.txt" />
+						<available file="${testdir}/test8.txt" />
+						<available file="${testdir}/test9.txt" />
+						<available file="${testdir}/test10.txt" />
+					</and>
+				</waitfor>
+				<antcall target="-concat">
+					<param name="testfile" value="test1" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test2" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test3" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test4" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test5" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test6" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test7" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test8" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test9" />
+				</antcall>
+				<antcall target="-concat">
+					<param name="testfile" value="test10" />
+				</antcall>
+
+			</sequential>
+		</parallel>
+	</target>
+
+	<target name="testCodeGeneration" depends="clean-testCodeGeneration">
+		<antcall target="-testLinearization-help">
+			<param name="testdir" value="testCodeGeneration" />
+			<param name="suffix" value="s" />
+			<param name="stage" value="5" />
+		</antcall>
+	</target>
+
+	<target name="-concat">
+		<concat destfile="${testdir}/testOutput.txt" append="true" eol="dos">${line.separator}TEST ${testfile}${line.separator}</concat>
+		<concat destfile="${testdir}/testOutput.txt" append="true" eol="dos">
+			<fileset file="${testdir}/${testfile}.txt" />
+		</concat>
+		<concat destfile="${testdir}/testError.txt" append="true" eol="dos">${line.separator}TEST ${testfile}${line.separator}</concat>
+		<concat destfile="${testdir}/testError.txt" append="true" eol="dos">
+			<fileset file="${testdir}/${testfile}.err" />
+		</concat>
+	</target>
+
+	<!-- <target name="-correct" depends="set-suffix"> -->
+	<target name="-correct">
+		<java classname="malgol.Main" classpath="bin" dir="bin" error="${testdir}/${testfile}.err" fork="true">
+			<arg value="${stage}" />
+			<arg file="${testdir}/${testfile}" />
+			<arg file="${testdir}/${testfile}.${suffix}" />
+		</java>
+		<exec executable="gcc">
+			<arg value="-o" />
+			<arg file="${testdir}/${testfile}.exe" />
+			<arg file="${testdir}/${testfile}.${suffix}" />
+		</exec>
+		<exec executable="${testdir}/${testfile}.exe" output="${testdir}/${testfile}.txt" failifexecutionfails="false" />
+	</target>
+
+	<!-- <target name="-buggy" depends="set-suffix"> -->
+	<target name="-buggy">
+		<java classname="malgol.Main" classpath="bin" dir="bin" error="${testdir}/${testfile}.err" fork="true">
+			<arg value="${stage}" />
+			<arg file="${testdir}/${testfile}" />
+			<arg file="${testdir}/${testfile}.${suffix}" />
+		</java>
+	</target>
+
+	
+	<target name="submitStatus1" depends="clean-all,build,testSubmit1">
+		<concat destfile="testStatus1.txt" append="true" eol="dos">
+				<fileset file="testFront/testOutput.txt" />
+		</concat>
+		<concat destfile="testStatus1.txt" append="true" eol="dos">${line.separator}      *****     ${line.separator}</concat>
+		<concat destfile="testStatus1.txt" append="true" eol="dos">
+			<fileset file="testFront/testError.txt" />
+		</concat>
+			
+		<tstamp>
+			<format property="date.time" pattern="yyyy-MM-dd-HH-mm-ss" />
+		</tstamp>
+		<echo append="true" file="log.txt">
+	      Submission created by ${user.name} on ${date.time}
+	    </echo>
+		<echo>${msg}</echo>
+	</target>
+
+	<target name="submitFront" depends="clean-all,build,testFront">
+		
+		<concat destfile="testFront.txt" append="true" eol="dos">
+				<fileset file="testFront/testOutput.txt" />
+		</concat>
+		<concat destfile="testFront.txt" append="true" eol="dos">${line.separator}      *****     ${line.separator}</concat>
+		<concat destfile="testFront.txt" append="true" eol="dos">
+			<fileset file="testFront/testError.txt" />
+		</concat>
+			
+		<tstamp>
+			<format property="date.time" pattern="yyyy-MM-dd-HH-mm-ss" />
+		</tstamp>
+		<echo append="true" file="log.txt">
+	      Submission created by ${user.name} on ${date.time}
+	    </echo>
+		<zip zipfile="submit-${date.time}.zip" basedir=".." includes="**/Malgol/**,**/.metadata/**" excludes="bin/**/*,bin,submit-*.zip" />
+		<echo>${msg}</echo>
+	</target>
+	
+	<target name="submitStatus2" depends="clean-all,build,testTypeCheck">
+		<concat destfile="testStatus2.txt" append="true" eol="dos">
+				<fileset file="testTypeCheck/testOutput.txt" />
+		</concat>
+		<concat destfile="testStatus2.txt" append="true" eol="dos">${line.separator}      *****     ${line.separator}</concat>
+		<concat destfile="testStatus2.txt" append="true" eol="dos">
+			<fileset file="testTypeCheck/testError.txt" />
+		</concat>
+			
+		<tstamp>
+			<format property="date.time" pattern="yyyy-MM-dd-HH-mm-ss" />
+		</tstamp>
+		<echo append="true" file="log.txt">
+	      Submission created by ${user.name} on ${date.time}
+	    </echo>
+		<echo>${msg}</echo>
+	</target>
+	
+	<target name="submitBack" depends="clean-all,build,testTypeCheck,testLinearization,testCodeGeneration">
+		
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}***** Static Analysis *****${line.separator}</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">
+				<fileset file="testTypeCheck/testOutput.txt" />
+		</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}      *****     ${line.separator}</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">
+			<fileset file="testTypeCheck/testError.txt" />
+		</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}***** Static Analysis *****${line.separator}</concat>
+				
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}***** Linearization *****${line.separator}</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">
+			<fileset file="testLinearization/testOutput.txt" />
+		</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}      *****     ${line.separator}</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">
+			<fileset file="testLinearization/testError.txt" />
+		</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}***** Linearization *****${line.separator}</concat>
+
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}***** Code Generation *****${line.separator}</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">
+			<fileset file="testCodeGeneration/testOutput.txt" />
+		</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}      *****     ${line.separator}</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">
+			<fileset file="testCodeGeneration/testError.txt" />
+		</concat>
+		<concat destfile="testBack.txt" append="true" eol="dos">${line.separator}***** Code Generation *****${line.separator}</concat>		
+		<tstamp>
+			<format property="date.time" pattern="yyyy-MM-dd-HH-mm-ss" />
+		</tstamp>
+		<echo append="true" file="log.txt">
+		     Submission created by ${user.name} on ${date.time}
+		   </echo>
+		<zip zipfile="submit-${date.time}.zip" basedir=".." includes="**/Malgol/**,**/.metadata/**" excludes="bin/**/*,bin,submit-*.zip" />
+		<echo>${msg}</echo>
+	</target>
+</project>

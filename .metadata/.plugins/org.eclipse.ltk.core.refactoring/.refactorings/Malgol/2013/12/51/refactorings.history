@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 4 elements from project &apos;Malgol&apos;&#x0D;&#x0A;- Original project: &apos;Malgol&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     Malgol/parser/malgol.analysis&#x0D;&#x0A;     Malgol/parser/malgol.lexer&#x0D;&#x0A;     Malgol/parser/malgol.node&#x0D;&#x0A;     Malgol/parser/malgol.parser" description="Delete elements" element1="/parser&lt;malgol.parser" element2="/parser&lt;malgol" element3="/parser&lt;malgol.node" element4="/parser&lt;malgol" element5="/parser&lt;malgol.lexer" element6="/parser&lt;malgol" element7="/parser&lt;malgol.analysis" element8="/parser&lt;malgol" elements="8" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1387233846319" subPackages="false" version="1.0"/>
+</session>

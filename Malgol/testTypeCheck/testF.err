@@ -1,0 +1,3 @@
+Argument type doesn't match in selection 2 of 
+line: 14    pos: 15
+f(5, 10)

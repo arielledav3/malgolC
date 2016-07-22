@@ -1,0 +1,311 @@
+Package malgol;
+Helpers
+
+    digit = ['0' .. '9'];
+    letter = ['A' .. 'Z'] | ['a' .. 'z'];
+    eol = 13 10 | 13 | 10;
+    blank = (' ' | 9 | eol)+;
+
+Tokens
+    l_par = '(';
+    r_par = ')';
+    l_brace = '{';
+    r_brace = '}';
+    separator = '---';
+    l_bracket = '[';
+    r_bracket = ']';
+    plus = '+';
+    minus = '-';
+    mult = '*';
+    div = '/';
+    mod = '%';
+    comma = ',';
+    lt = '<';
+    gt = '>';
+    geq = '>=';
+    leq = '<=';
+    eq = '=';
+    neq = '!=';
+    amp = '&';
+    bar = '|';
+    bang = '!';
+    colon_equals = ':=';
+    int = 'int';
+    bool = 'bool';
+    array_of = 'arrayof';
+    colon = ':';
+    print = 'print';
+    if = 'if';
+    then = 'then';
+    else = 'else';
+    while = 'while';
+    do = 'do';
+    skip = 'skip';
+    return = 'return';
+    boolean = 'true' | 'false';
+    blank = blank;
+    number = digit+;
+    id = letter (letter|digit)*;
+
+Ignored Tokens
+    blank;
+
+
+Productions
+
+program
+	= function_def function_def_list
+	;
+	
+function_def_list
+	= {some} function_def function_def_list
+	| {none}
+	;
+	
+function_def
+	= id l_par param_list r_par colon type block
+	;
+	
+param_list
+	= {some} decl param_list_tail
+	| {none}
+	;
+	
+param_list_tail
+	= {some} comma decl param_list_tail
+	| {none}
+	;
+	
+block
+	= {block} l_brace decl_list separator stmt_list r_brace
+	;
+			
+stmt
+	= {print} print exp
+	| {assign} [l]:var_exp colon_equals [r]:exp
+	| {block} l_brace decl_list separator stmt_list r_brace
+	| {select} if [cond]:exp then [t_branch]:stmt else [f_branch]:stmt
+	| {while} while [cond]:exp do [body]:stmt
+	| {skip} skip
+	| {return} return exp
+	;
+		
+decl_list
+	= {some} decl decl_list
+	| {none}
+	;
+		
+decl
+	= id colon type
+	;
+	
+stmt_list
+	= {some} stmt stmt_list
+	| {none}
+	;
+	
+type
+	= {int} int
+	| {bool} bool
+	| {array} array_of [size]:number [elements]:type
+	;
+	
+exp
+	= {or} [left]:exp bar [right]:and_exp
+	| {base} [arg]:and_exp
+	;
+	
+and_exp
+	= {and} [left]:and_exp amp [right]:not_exp
+	| {base} [arg]:not_exp
+	; 
+	
+not_exp
+	= {not} bang [arg]:not_exp
+	| {base} [arg]:rel_exp
+	;
+
+rel_exp
+	= {lt} [left]:int_exp lt [right]:int_exp
+	| {gt} [left]:int_exp gt [right]:int_exp
+	| {eq} [left]:int_exp eq [right]:int_exp
+	| {neq} [left]:int_exp neq [right]:int_exp
+	| {geq} [left]:int_exp geq [right]:int_exp
+	| {leq} [left]:int_exp leq [right]:int_exp
+	| {int_exp} [arg]:int_exp
+	;
+		
+int_exp
+	= {plus}	[left]:int_exp plus [right]:term
+	| {minus}	[left]:int_exp minus [right]:term
+	| {term}	[arg]:term
+	;
+
+term
+	= {mult}	[left]:term mult [right]:factor
+	| {div}		[left]:term div [right]:factor
+	| {mod}     [left]:term mod [right]:factor
+	| {factor}	[arg]:factor
+	;
+		
+factor
+	= {int_neg} minus [arg]:factor
+	| {prime_exp} [arg]:prime_exp
+	;
+
+prime_exp
+	= {int}		number
+	| {bool}	boolean
+	| {var}		var_exp
+	| {function_call} id l_par arg_list r_par
+	| {paren}	l_par exp r_par
+	;
+		
+var_exp
+	= {id} id
+	| {array} [array]:var_exp l_bracket [index]:exp r_bracket
+	;
+
+arg_list
+	= {some} exp arg_list_tail
+	| {none}
+	;
+		
+arg_list_tail
+	= {some} comma exp arg_list_tail
+	| {none}
+	;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  IGNORE THIS!
+
+Productions
+				
+	stmt
+		= {print} print exp {-> New stmt.print([], exp) }
+		| {assign} id colon_equals exp {-> New stmt.assign([], id, exp) }
+		| {block} l_brace decl* stmt* r_brace {-> New stmt.block([decl], [stmt]) }
+		| {select} if [cond]:exp then [t_branch]:stmt else [f_branch]:stmt fi {-> New stmt.select(cond, t_branch, f_branch) }
+		| {while} while [cond]:exp do [body]:stmt od {-> New stmt.while(cond, body) }
+		;
+		
+	decl
+		= type id
+		;
+		
+	type
+		= {int} int
+		| {bool} bool
+		;
+
+
+    exp_list
+        = exp exp_list_tail*  {-> New exp_list([exp, exp_list_tail.exp])};
+
+    exp_list_tail 		{-> exp}
+		= comma exp 		{-> exp};
+
+	exp
+ 		= {lt} [l]:int_exp lt [r]:int_exp	{-> New exp.bin_op(l.exp, New bin_op.lt(lt), r.exp)}
+		| {gt} [l]:int_exp gt [r]:int_exp	{-> New exp.bin_op(l.exp, New bin_op.gt(gt), r.exp)}
+		| {int_exp} int_exp					{-> int_exp.exp}
+		;
+		
+		
+    int_exp {-> exp}
+		= {plus}	int_exp plus term	{-> New exp.bin_op(int_exp.exp, New bin_op.plus(plus), term.exp)  }
+        | {minus}	int_exp minus term 	{-> New exp.bin_op(int_exp.exp, New bin_op.minus(minus), term.exp) }
+        | {term}	term				{-> term.exp}
+		;
+
+    term {-> exp} 
+		= {mult}	term mult factor    {-> New exp.bin_op(term.exp, New bin_op.mult(mult), factor.exp) }
+        | {div}		term div factor  	{-> New exp.bin_op(term.exp, New bin_op.div(div), factor.exp) }
+        | {factor}	factor				{-> factor.exp}
+		;
+		
+	factor {-> exp}
+		= {int_neg} minus factor	{-> New exp.unary_op(New unary_op.unary_minus(minus), factor.exp) }
+		| {bool_neg} not factor		{-> New exp.unary_op(New unary_op.not(not), factor.exp) }
+		| {prime_int} prime_int		{-> prime_int.exp }
+		;
+
+    prime_int {-> exp}
+    	= {number}  number 			{-> New exp.number(number)}
+    	| {var}		id 				{-> New exp.var(id)}
+        | {exp}		l_par exp r_par {-> exp}
+	;
+
+Abstract Syntax Tree
+
+	stmt
+		= {print} exp
+		| {assign} id exp
+		| {block} decl* stmt*
+		| {select} [cond]:exp [t_branch]:stmt [f_branch]:stmt
+		| {while} [cond]:exp [body]:stmt
+		;
+	
+	decl = type id;
+	
+	label = id;
+	
+	type
+		= {int} int
+		| {bool} bool
+		;
+
+
+    exp_list = exp*;
+
+    
+    exp
+    	= {bin_op} [l]:exp bin_op [r]:exp
+    	| {unary_op} unary_op exp
+		| {number} number
+		| {var} id
+		;
+		
+	bin_op
+		= {plus} plus
+		| {minus} minus
+		| {mult} mult
+		| {div} div
+		| {lt} lt
+		| {gt} gt
+		| {leq} leq
+		| {geq} geq
+		| {eq} eq
+		| {neq} neq
+		| {and} and
+		| {or} or
+		;
+		
+	unary_op
+		= {unary_minus} minus
+		| {not} not
+		;
+*/

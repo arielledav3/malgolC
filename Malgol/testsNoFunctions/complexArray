@@ -1,0 +1,25 @@
+{
+  array : arrayof 20 arrayof 10 int
+  twice : arrayof 10 int
+  row : int
+  col : int
+---
+  row := 0
+  col := 0
+  while (row < 20) do
+  {
+  ---
+    col := 0
+    while (col < 10) do
+    {
+    ---
+        array[row][col] := row * 10 + col
+        twice[col] := 2 * col
+        col := col + 1
+    }
+    row := row + 1
+  }
+  print twice[3]
+  print array[5][7]
+  print array[twice[7]][row-15]
+}

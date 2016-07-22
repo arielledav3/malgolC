@@ -1,0 +1,31 @@
+choose(n:int, r:int) : int
+{
+---
+  if (r = 0)
+    then return 1
+  else if (r = n)
+    then return 1
+  else return choose(n-1, r) + choose(n-1, r-1)
+}
+
+main() : int
+{
+  n:int
+---
+  n := 5
+  while (n <= 6) do
+  {
+      r:int
+  ---
+      r := 0
+      while (r <= n) do
+      {
+      ---
+         print choose(n,r)
+         r := r+1
+      }
+      print -999999
+      n := n+1
+  }
+  return 0
+}

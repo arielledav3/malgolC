@@ -1,0 +1,15 @@
+g() : int
+{
+---
+        return 5
+}
+
+main() : int
+{
+        i : int
+---
+        i := 5
+        print i
+        g[0] := 10
+        return 0
+}

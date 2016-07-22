@@ -1,0 +1,25 @@
+{
+  A : arrayof 10 int
+  B : arrayof 10 bool
+  i : int
+---
+  i := 0
+  while i < 10 do
+  {
+  ---
+    A[i] := 3 * i
+    if i % 2 = 0
+      then B[i] := false
+      else B[i] := true
+    i := i + 1
+  }
+  i := 0
+  while i < 10 do
+  {
+  ---
+    if B[i]
+      then print A[i]
+      else skip
+    i := i + 1
+  }
+}

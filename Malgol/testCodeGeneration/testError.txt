@@ -1,0 +1,90 @@
+
+TEST test1
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test2
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test3
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test4
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test5
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test6
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test7
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test8
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test9
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test10
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)

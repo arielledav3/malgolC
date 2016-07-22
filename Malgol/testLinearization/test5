@@ -1,0 +1,29 @@
+f(a : int, b : int) : int
+{
+---
+        return b + a * 10
+}
+
+
+main() : int
+{
+        i : int
+        j : int
+---
+        i := 1
+        while (i < 20) do
+        {
+        ---
+                j := 1
+                while (j < 10) do
+                {
+                        temp : int
+                ---
+                        temp := f(i,j)
+                        print temp
+                        j := j + 3
+                }
+                i := i + 5
+        }
+        return 0
+}

@@ -1,0 +1,13 @@
+{
+  A : arrayof 10 int
+  i : int
+---
+  i := 0
+  while i < 10 do
+  {
+  ---
+    A[i] := i
+    i := i + 1
+  }
+  A := i
+}

@@ -1,0 +1,7 @@
+{
+  A : arrayof 10 int
+---
+  A[5] := 3
+  print 1
+  print A[5]
+}

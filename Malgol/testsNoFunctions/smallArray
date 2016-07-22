@@ -1,0 +1,10 @@
+{
+  A : arrayof 10 int
+  pos : int
+---
+  pos := 5
+  A[0] := 0
+  A[pos] := 1
+  A[6] := 2
+  print A[pos+1]
+}

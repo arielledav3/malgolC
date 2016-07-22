@@ -1,0 +1,312 @@
+
+***** Static Analysis *****
+
+TEST test1
+40
+40
+30
+10
+
+TEST test2
+19
+17
+101
+
+TEST testA
+
+TEST testB
+
+TEST testC
+
+TEST testD
+
+TEST testE
+
+TEST testF
+
+TEST testG
+
+TEST testH
+
+      *****     
+
+TEST test1
+
+TEST test2
+
+TEST testA
+Unknown Function: f, 
+line: 13    pos: 14
+f()
+
+TEST testB
+This is not a function 
+line: 14    pos: 14
+j()
+
+TEST testC
+Type mismatch in
+line: 11    pos: 9
+g := 10
+
+
+TEST testD
+Not an array
+line: 13    pos: 9
+g[0]
+
+TEST testE
+Argument count doesn't match
+line: 14    pos: 14
+findmax(1, 2, 3, 4)
+
+TEST testF
+Argument type doesn't match in selection 2 of 
+line: 14    pos: 15
+f(5, 10)
+
+TEST testG
+print expression must be integer type
+line: 13    pos: 22
+PRINT f(1, 21)
+
+
+TEST testH
+Return Type Mismatch, 
+line: 6    pos: 22
+RETURN (a - b)
+
+
+***** Static Analysis *****
+
+***** Linearization *****
+
+TEST test1
+
+TEST test2
+
+TEST test3
+
+TEST test4
+
+TEST test5
+
+TEST test6
+
+TEST test7
+
+TEST test8
+
+TEST test9
+
+TEST test10
+
+      *****     
+
+TEST test1
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test2
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test3
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test4
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test5
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test6
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test7
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test8
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test9
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+TEST test10
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)
+
+***** Linearization *****
+
+***** Code Generation *****
+
+TEST test1
+
+TEST test2
+
+TEST test3
+
+TEST test4
+
+TEST test5
+
+TEST test6
+
+TEST test7
+
+TEST test8
+
+TEST test9
+
+TEST test10
+
+      *****     
+
+TEST test1
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test2
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test3
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test4
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test5
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test6
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test7
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test8
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test9
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+TEST test10
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:142)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.FrameLayoutVisitor.visit(FrameLayoutVisitor.java:170)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:114)
+	at malgol.Main.main(Main.java:48)
+
+***** Code Generation *****

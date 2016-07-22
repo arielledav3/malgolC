@@ -1,0 +1,14 @@
+{
+  i : int
+  b : bool
+---
+  if (b)
+    then print i
+    else skip
+  if (i > 7)
+    then print i
+    else skip
+  print i + 8
+  i := b
+  print 0
+}

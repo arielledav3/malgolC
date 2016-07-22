@@ -1,0 +1,35 @@
+g() : int
+{
+---
+        print 3
+        print 4
+        return 5
+}
+
+
+f() : int
+{
+---
+        print 2
+        {
+                i : int
+        ---
+                i := g()
+                print i
+        }
+        return 6
+}
+
+
+main() : int
+{
+---
+        print 1
+        {
+                i : int
+        ---
+                i := f()
+                print i
+        }
+        return 0
+}

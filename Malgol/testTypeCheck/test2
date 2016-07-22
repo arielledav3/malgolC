@@ -1,0 +1,45 @@
+max(a:int, b:int) : int
+{
+---
+  if (a > b)
+    then return a
+    else return b
+}
+
+arrayMax(C:arrayof 20 int) : int
+{
+  i : int
+  currentMax : int
+---
+  i := 1
+  currentMax := C[0]
+  while (i < 20) do
+  {
+  ---
+    currentMax := max(currentMax, C[i])
+    i := i + 1
+  }
+  return currentMax
+}
+
+main() : int
+{
+    A : arrayof 20 int
+    i : int
+---
+    i := 0
+    while (i < 20) do
+    {
+    ---
+        if (i % 2 = 0)
+            then A[i] := -i
+            else A[i] := i
+        i := i+1
+    }
+    print arrayMax(A)
+    A[19] := 0
+    print arrayMax(A)
+    A[10] := 101
+    print arrayMax(A)
+    return 0
+}

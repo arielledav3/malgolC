@@ -1,0 +1,16 @@
+findmax(a : int, b : int) : int
+{
+---
+        if (a > b)
+                then return a
+                else return b
+}
+main() : int
+{
+        i : int
+---
+        i := findmax(3, 10)
+        print i
+        i := findmax(1, 2, 3, 4)
+        return 0
+}

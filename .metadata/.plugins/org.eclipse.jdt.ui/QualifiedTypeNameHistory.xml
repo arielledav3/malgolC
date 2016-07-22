@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="malgol.common.Operator"/>
+<fullyQualifiedTypeName name="malgol.node.Token"/>
+<fullyQualifiedTypeName name="malgol.type.Type"/>
+<fullyQualifiedTypeName name="malgol.ast.Statement"/>
+<fullyQualifiedTypeName name="malgol.ast.Expression"/>
+<fullyQualifiedTypeName name="malgol.common.Environment"/>
+<fullyQualifiedTypeName name="malgol.common.SymbolTable"/>
+<fullyQualifiedTypeName name="malgol.common.Symbol"/>
+<fullyQualifiedTypeName name="malgol.ast.Declaration"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="malgol.common.LayoutInformation"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="malgol.type.LocationType"/>
+<fullyQualifiedTypeName name="malgol.transform.UntypedAST2CVisitor"/>
+</qualifiedTypeNameHistroy>

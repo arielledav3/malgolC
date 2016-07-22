@@ -1,0 +1,363 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package malgol.transform;
+
+import malgol.ast.*;
+import malgol.common.*;
+
+public class CodeGenerationVisitorOLD implements ASTVisitor {
+
+	private static final int ARG_SIZE = 4;
+	private static final int INDENT_AMOUNT = 20;
+	private static final int INSTRUCTION_WIDTH = 10;
+	public static final String NEWLINE = System.getProperty("line.separator");
+	public static final String INDENT = generateIndentString(INDENT_AMOUNT);
+	public static final String PRINTF_STRING = "_printf_string";
+	private StringBuilder buf;
+	private Environment env = null;
+	private boolean lvalue = false;
+	private SpaceCalculationVisitor spaceCalculationVisitor = new SpaceCalculationVisitor();
+	private static final String[] spaces =
+		{
+		"",
+		" ",
+		"  ",
+		"   ",
+		"    ",
+		"     ",
+		"      ",
+		"       ",
+		"        ",
+		"         ",
+		"          ",
+		"           ",
+		"            ",
+		"             ",
+		"              ",
+		"               ",
+		"                ",
+		"                 ",
+		"                  ",
+		"                   ",
+		"                    ",
+		"                     "
+	};
+
+	public String getCode() {
+		return buf.toString();
+	}
+
+	@Override
+	public void visit(BlockStatement s) {
+		env.createNewScope();
+		buf.append(generateLabels(s));
+		for (Declaration d : s.getDeclarationList()) {
+			d.accept(this);
+		}
+		for (Statement stat : s.getStatementList()) {
+			stat.accept(this);
+		}
+		env.dropScope();
+	}
+
+	@Override
+	public void visit(AssignmentStatement s) {
+		buf.append(generateLabels(s));
+		temp += "### " + s.getLeft() + " := " + s.getRight() + NEWLINE;
+		s.getRight().accept(this);
+		temp += buf;
+		temp += generateInstruction("movl", "%eax", "%ecx");
+		lvalue = true;
+		s.getLeft().accept(this);
+		temp += buf;
+		lvalue = false;
+		temp += generateInstruction("movl", "%ecx", "(%eax)");
+		buf = temp;
+	}
+
+	@Override
+	public void visit(SelectionStatement s) {
+		assert (s.getFalseBranch() instanceof SkipStatement) : "Found false branch during code generation";
+		assert (s.getTrueBranch() instanceof GotoStatement) : "Found non-jump in true branch during code generation";
+		assert (s.getTest() instanceof ConstantExpression
+				|| s.getTest() instanceof VariableExpression || s.getTest() instanceof DereferenceExpression) : "Found complex test during code generation"
+				+ s.toString();
+		GotoStatement target = (GotoStatement) s.getTrueBranch();
+		String temp = generateLabels(s);
+		temp += "### IF (" + s.getTest() + ") " + s.getTrueBranch();
+		s.getTest().accept(this);
+		temp += buf;
+		temp += generateInstruction("cmpl", "$0", "%eax");
+		temp += generateInstruction("jne", target.getTarget().getName());
+		buf = temp;
+	}
+
+	@Override
+	public void visit(WhileStatement s) {
+		assert false : "Encountered while statement during code generation!";
+	}
+
+	@Override
+	public void visit(PrintStatement s) {
+		String temp = generateLabels(s);
+		temp += temp += "### PRINT " + s.getExpression() + NEWLINE;
+		s.getExpression().accept(this);
+		temp += result;
+		temp += generateInstruction("movl", "%eax", "4(%esp)");
+		temp += generateInstruction("movl", '$' + PRINTF_STRING, "(%esp)");
+		temp += generateInstruction("call", "_printf");
+		result = temp;
+	}
+
+	@Override
+	public void visit(SkipStatement s) {
+		String temp = generateLabels(s);
+		temp += generateInstruction("nop");
+		result = temp;
+	}
+
+	@Override
+	public void visit(GotoStatement s) {
+		String temp = generateLabels(s);
+		temp += "### GOTO " + s.getTarget().getName() + NEWLINE;
+		temp += generateInstruction("jmp", s.getTarget().getName());
+		result = temp;
+	}
+
+	@Override
+	public void visit(ArrayExpression e) {
+		assert false : "Encountered array expression during code generation";
+	}
+
+	@Override
+	public void visit(BinaryExpression e) {
+		e.getRight().accept(this);
+		result.append(generateInstruction("movl", "%eax", "%ecx"));
+		e.getLeft().accept(this);
+		switch (e.getOperator()) {
+		case AND:
+			temp += generateInstruction("andl", "%ecx", "%eax");
+			break;
+		case OR:
+			temp += generateInstruction("orl", "%ecx", "%eax");
+			break;
+		case PLUS:
+			temp += generateInstruction("addl", "%ecx", "%eax");
+			break;
+		case MINUS:
+			temp += generateInstruction("subl", "%ecx", "%eax");
+			break;
+		case TIMES:
+			temp += generateInstruction("imull", "%ecx", "%eax");
+			break;
+		case DIVIDE:
+			temp += generateInstruction("cltd");
+			temp += generateInstruction("idivl", "%ecx");
+			break;
+		case MOD:
+			temp += generateInstruction("cltd");
+			temp += generateInstruction("idivl", "%ecx");
+			temp += generateInstruction("movl", "%edx", "%eax");
+			break;
+		case LESSTHAN:
+			temp += generateInstruction("cmpl", "%ecx", "%eax");
+			temp += generateInstruction("setl", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		case GREATERTHAN:
+			temp += generateInstruction("cmpl", "%ecx", "%eax");
+			temp += generateInstruction("setg", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		case LEQ:
+			temp += generateInstruction("cmpl", "%ecx", "%eax");
+			temp += generateInstruction("setle", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		case GEQ:
+			temp += generateInstruction("cmpl", "%ecx", "%eax");
+			temp += generateInstruction("setge", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		case EQUALS:
+			temp += generateInstruction("cmpl", "%ecx", "%eax");
+			temp += generateInstruction("setz", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		case BANGEQUALS:
+			temp += generateInstruction("cmpl", "%ecx", "%eax");
+			temp += generateInstruction("setnz", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		default:
+			assert false : "Unknown binary operator during code generation.";
+		}
+		result = temp;
+	}
+
+	@Override
+	public void visit(UnaryExpression e) {
+
+		e.getExpression().accept(this);
+		String temp = result;
+		switch (e.getOperator()) {
+		case UMINUS:
+			temp += generateInstruction("negl", "%eax");
+			break;
+		case NOT:
+			temp += generateInstruction("cmpl", "$0", "%eax");
+			temp += generateInstruction("sete", "%al");
+			temp += generateInstruction("movzbl", "%al", "%eax");
+			break;
+		default:
+			assert false : "Unknown unary operator during code generation.";
+		}
+		result = temp;
+	}
+
+	@Override
+	public void visit(VariableExpression e) {
+		Symbol s = env.lookupInEnvironment(e.getName());
+		if (s.getType().isArray()) {
+			if (s.isParameter()) {
+				result = generateInstruction("movl", s.getLocation()+"(%ebp)", "%eax");
+			} else {
+				result = generateInstruction("leal", s.getLocation()+"(%ebp)", "%eax");
+			}
+		} else {
+			if (lvalue) {
+				result = generateInstruction("leal", s.getLocation()+"(%ebp)", "%eax");
+			} else {
+				result = generateInstruction("movl", s.getLocation()+"(%ebp)", "%eax");
+			}
+		}
+	}
+
+	@Override
+	public void visit(ConstantExpression e) {
+		result = generateInstruction("movl", "$" + e.getValue(), "%eax");
+	}
+
+	@Override
+	public void visit(Declaration d) {
+		env.insert(d);
+	}
+
+	@Override
+	public void visit(DereferenceExpression e) {
+		e.getLocation().accept(this);
+		result += generateInstruction("movl", "(%eax)", "%eax");
+	}
+
+	@Override
+	public void visit(OffsetExpression e) {
+		e.getOffset().accept(this);
+		String temp = result;
+		temp += generateInstruction("movl", "%eax", "%ecx");
+		e.getLocation().accept(this);
+		temp += result;
+		temp += generateInstruction("addl", "%ecx", "%eax");
+		result = temp;
+	}
+
+	@Override
+	public void visit(FunctionDefinition f) {
+		env = new Environment(f);
+		
+		// Clear out buf and use buf in the recursive call.
+		// We need to do the recursive call before we know the six of the frame,
+		// so we cannot append the setup code until after the recursive call.
+		
+		String temp = generateOneLabel("_" + f.getName());
+		temp += generateInstruction("pushl", "%ebp");
+		temp += generateInstruction("movl", "%esp", "%ebp");
+		f.accept(spaceCalculationVisitor);
+		temp += generateInstruction("subl", "$" + spaceCalculationVisitor.getResult(), "%esp");
+		f.getBody().accept(this);
+		temp += result;
+		result = temp;
+	}
+
+	@Override
+	public void visit(FunctionCallExpression e) {
+		int offset = 0;
+		String temp = "";
+		for (Expression arg : e.getArguments()) {
+			arg.accept(this);
+			temp += result;
+			temp += generateInstruction("movl", "%eax", offset + "(%esp)");
+			offset += ARG_SIZE;
+		}
+		temp += generateInstruction("call", "_" + e.getName());
+		result = temp;
+	}
+
+	@Override
+	public void visit(Program p) {
+		String temp = generateInstruction(".data");
+		temp += generateOneLabel(PRINTF_STRING);
+		temp += generateInstruction(".ascii", "\"%d\\n\\0\"");
+		temp += generateInstruction(".text");
+		temp +=generateInstruction(".global _main");
+		for(FunctionDefinition fun : p.getFunctionList()) {
+			temp += NEWLINE;
+			fun.accept(this);
+			temp += result;
+		}
+		result = temp;
+	}
+	
+	@Override
+	public void visit(ReturnStatement s) {
+		String temp = generateLabels(s);
+		temp += "### RETURN " + s.getExpression() + NEWLINE;
+		s.getExpression().accept(this);
+		temp += result;
+		temp += generateInstruction("leave");
+		temp += generateInstruction("ret");
+		result = temp;
+	}
+
+	private static String generateIndentString(int size) {
+		String localResult = "";
+		for (int i = 0; i < size; i++) {
+			localResult += ' ';
+		}
+		return localResult;
+	}
+
+	private String generateOneLabel(String s) {
+		StringBuilder local = new StringBuilder(50);
+		int spaceCount = INDENT_AMOUNT - (s.length() + 3);
+		for (int i = 0; i < spaceCount; i++) {
+			local.append(' ');
+		}
+		local.append(s);
+		local.append(":");
+		local.append(NEWLINE);
+		return local.toString();
+	}
+
+	private String generateLabels(Statement s) {
+		String temp = "";
+		for (Label l : s.getLabels()) {
+			temp += generateOneLabel(l.getName());
+		}
+		return temp;
+	}
+
+	private String generateInstruction(String op) {
+		return INDENT + op + NEWLINE;
+	}
+
+	private String generateInstruction(String op, String arg) {
+		return INDENT + op + spaces[INSTRUCTION_WIDTH-op.length()] + arg + NEWLINE;
+	}
+
+	private String generateInstruction(String op, String arg1, String arg2) {
+		return INDENT + op + spaces[INSTRUCTION_WIDTH-op.length()] + arg1
+				+ ", " + arg2 + NEWLINE;
+	}
+}

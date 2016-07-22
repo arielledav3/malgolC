@@ -1,0 +1,28 @@
+max2(a : int, b : int) : int
+{
+---
+        if (a > b)
+                then return a
+                else return b
+}
+
+max4(a:int, b:int, c:int, d:int) : int
+{
+---
+        return max2(max2(a,b), max2(c,d))
+}
+
+
+main() : int
+{
+        i : int
+        j : int
+---
+        i := 10
+        j := 30
+        print max4(i, 20, j, 40)
+        print max4(40, j, 20, i)
+        print max4(1, j, i, i)
+        print max4(i, i, i, i)
+        return 0
+}

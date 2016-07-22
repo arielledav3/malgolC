@@ -1,0 +1,7 @@
+Exception in thread "main" java.lang.NullPointerException
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:224)
+	at malgol.ast.FunctionDefinition.accept(FunctionDefinition.java:40)
+	at malgol.transform.AST2CVisitor.visit(AST2CVisitor.java:259)
+	at malgol.ast.Program.accept(Program.java:20)
+	at malgol.Main.doPhases(Main.java:107)
+	at malgol.Main.main(Main.java:48)

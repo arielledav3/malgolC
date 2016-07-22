@@ -1,0 +1,17 @@
+f(a : int, b : bool) : int
+{
+---
+        if (a = 0 | !b)
+                then return 1
+                else return 0
+}
+
+
+main() : int
+{
+---
+        print f(-8, false)
+        print f(5, 10)
+        print f(0, true)
+        return 0
+}

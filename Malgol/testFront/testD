@@ -1,0 +1,14 @@
+f() : int
+{
+---
+        return -10
+}
+
+main() : int
+{
+        result : int
+---
+        result := f(,)
+        print result
+        return 0
+}

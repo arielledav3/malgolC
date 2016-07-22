@@ -1,0 +1,20 @@
+check(a : int) : bool
+{
+---
+    return a % 3 = 1
+}
+
+main() : int
+{
+    i : int
+---
+    i := 0
+    while i < 15 do
+    {
+    ---
+        if check(i)
+            then print i
+            else skip
+        i := i + 1
+    }
+}

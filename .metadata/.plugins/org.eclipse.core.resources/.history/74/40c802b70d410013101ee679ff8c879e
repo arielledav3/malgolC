@@ -1,0 +1,18 @@
+package malgol.util;
+
+import malgol.ast.ASTNode;
+
+public class Error {
+    public static void msg(String s)
+    {
+        System.err.println(s);
+        System.exit(1);
+    }
+    
+    public static void msg(String s, ASTNode n) {
+    	System.err.println(s);
+    	System.out.println(n.getPositionString());
+    	System.out.println(n);
+    }
+
+}

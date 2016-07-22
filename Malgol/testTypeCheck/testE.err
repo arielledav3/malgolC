@@ -1,0 +1,3 @@
+Argument count doesn't match
+line: 14    pos: 14
+findmax(1, 2, 3, 4)

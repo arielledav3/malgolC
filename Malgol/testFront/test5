@@ -1,0 +1,28 @@
+f(a : int, b : bool) : int
+{
+        answer : int
+---
+        if (b)
+                then answer := -a
+                else return a
+        return answer
+}
+
+
+main() : int
+{
+        i : int
+---
+        i := 0
+        while (i < 6) do
+        {
+                temp : int
+	---
+                temp := f(i, true)
+                print temp
+                temp := f(i, false)
+                print temp
+                i := i + 1
+        }
+        return 0
+}
